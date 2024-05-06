@@ -1,0 +1,10 @@
+WARNING !!!!!!!!!!
+
+There's probably a more elegant way to do this. The problem is that I want to script the grid building process and I don't see the obvious way 
+provide interactive input to bathtub, bathsuds, and sphere.
+
+I don't need to run bathtub but I do need to run sphere. I will load a bathymetry into hraw(1) using python, and then I want to run sphere and
+have it simply use hraw(1) without me having to tell it to. Do this by editing 
+	Utility/get_h.F
+
+	

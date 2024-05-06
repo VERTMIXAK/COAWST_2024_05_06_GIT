@@ -1,0 +1,12 @@
+freya,1015,GFS,GLS,deadStill,7.6e-6
+freya,1015,GFS,GLS,deadStill,1.0e-10
+freya,1015,ERA5,GLS,deadStill,7.6e-6
+freya,1015,ERA5,GLS,deadStill,1.0e-10
+freya,1015,GFS,LMD,deadStill
+freya,1015,ERA5,LMD,deadStill
+freya,1015,GFS,GLS,mesoNoTides,7.6e-6
+freya,1015,GFS,GLS,mesoNoTides,1.0e-10
+freya,1015,ERA5,GLS,mesoNoTides,7.6e-6
+freya,1015,ERA5,GLS,mesoNoTides,1.0e-10
+freya,1015,GFS,LMD,mesoNoTides
+freya,1015,ERA5,LMD,mesoNoTides

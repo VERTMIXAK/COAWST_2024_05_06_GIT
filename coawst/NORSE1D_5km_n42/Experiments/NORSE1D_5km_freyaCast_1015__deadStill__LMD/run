@@ -1,0 +1,1 @@
+mpirun -np 1 coawstM* ocean* > log; bash /import/home/jgpender/addl_Scripts/timeROMS/getRunTime.bash >> log

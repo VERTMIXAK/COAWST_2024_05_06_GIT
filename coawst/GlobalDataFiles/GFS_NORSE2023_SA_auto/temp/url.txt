@@ -1,0 +1,4 @@
+wget -O dum.nc https://thredds.rda.ucar.edu/thredds/ncss/grid/files/g/ds084.1/2021/20210701/gfs.0p25.2021070100.f009.grib2?var=Downward_Short-Wave_Radiation_Flux_surface_3_Hour_Average&north=70&west=0&east=10&south=60&horizStride=1&time_start=2021-07-01T09:00:00Z&time_end=2021-07-01T09:00:00Z&&&accept=netcdf3&addLatLon=true
+
+
+https://thredds.rda.ucar.edu/thredds/ncss/grid/files/g/ds084.1/2023/20231110/gfs.0p25.2023111000.f000.grib2?var=Sensible_heat_net_flux_surface_3_Hour_Average&north=65&west=-10&east=10&south=60&horizStride=1&time_start=2023-11-10T00:00:00Z&time_end=2023-11-10T00:00:00Z&accept=netcdf3&addLatLon=true

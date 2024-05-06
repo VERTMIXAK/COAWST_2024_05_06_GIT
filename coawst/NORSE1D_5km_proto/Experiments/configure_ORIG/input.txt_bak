@@ -1,0 +1,7 @@
+freya,873,GFS,GLS,1.0e-10
+freya,873,GFS,LMD
+freya,873,ERA5,LMD
+freya,873,ERA5,GLS,1.0e-10
+freya,873,deadStill,GLS,1.0e-10
+freya,873,deadStill,GLS,1.0e-8
+freya,873,deadStill,LMD

@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#SBATCH --partition=t2small
+#SBATCH --ntasks=1
+#SBATCH --mail-user=jgpender@alaska.edu
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --time=48:00:00
+#SBATCH --output=roms.%j
+source ~/.runROMSintel
+ulimit -l unlimited
+ulimit -s unlimited
+
+
+
+DEST=/import/VERTMIX/DABOB_JGP/HC_100m_30layers/Experiments/
+
+SRC=/import/c1/VERTMIX/jgpender/coawst/HC_100m_30layers/Experiments/
+
+
+
+local=HC_100m_2024.04.02
+
+rsync  -P -v -r -a --rsh="/usr/bin/rsh" 			\
+	--rsync-path=/usr/local/bin/rsync $SRC$local $DEST  > myRsync.log
+
+
+local=HC_100m_2024.04.03
+
+rsync  -P -v -r -a --rsh="/usr/bin/rsh"             \
+    --rsync-path=/usr/local/bin/rsync $SRC$local $DEST  > myRsync.log
+
+
+
+
+
+

@@ -1,0 +1,207 @@
+#!/bin/bash
+source ~/.runROMSintel
+
+# Choose the cast number
+
+n=1015
+#source="freya"
+#forcing='GFS'           # ERA5      or  GFS
+#mixing='LMD'			# LMD 		or	GLS
+#mode='mesoNoTides'		# deadStill	or 	mesoNoTides
+
+ mySource=(	"freya"        );    limitSource=`echo " ${#mySource[@]}  - 1 " | bc`
+myForcing=( "ERA5"   "GFS" );   limitForcing=`echo " ${#myForcing[@]} - 1 " | bc`
+ myMixing=( "LMD"    "GLS" );    limitMixing=`echo " ${#myMixing[@]}  - 1 " | bc`
+
+echo "length of mySource = "  $limitSource
+echo "length of myForcing = " $limitForcing
+echo "length of myMixing = "  $limitMixing
+
+
+
+for ss in `s
+
+
+
+
+exit
+
+
+
+
+
+
+if [ $mixing = 'GLS' ]; 
+then
+	echo 'GLS mixing'
+    GLS_Kmin='7.6e-6'
+#	GLS_Kmin='1.0e-10'
+fi
+
+#cp -r templateDir ..
+
+\rm getNumbers.m
+perl -pe "s/XXX/$n/" util/getNumbersTemplate.m > getNumbers.m
+
+
+module purge
+. /etc/profile.d/modules.sh
+module load matlab/R2013a
+matlab -nodisplay -nosplash < getNumbers.m
+
+
+lon=`head -1 latlon.txt | rev | cut -d ' ' -f1 |rev`
+lat=`head -2 latlon.txt | tail -1 | rev | cut -d ' ' -f1 |rev`
+
+echo "lat " $lat
+echo "lon " $lon
+
+myDate=`head -3 latlon.txt | tail -1 | cut -c 1-8`
+myDate=`date -d $myDate +"%Y-%m-%d"`
+
+myTimeGMT=`head -3 latlon.txt | tail -1 | cut -c 10-15`
+
+myTime=`tail -1 latlon.txt | cut -d '.' -f2`
+
+echo $myDate
+echo $myTimeGMT
+
+dayN=`grep $myDate /import/home/jgpender/addl_Scripts/dayConverterCommas.txt | cut -d ',' -f2`
+
+myHour=`echo $myTimeGMT | cut -c 1,2`
+myMin=`echo $myTimeGMT | cut -c 3,4`
+mySec=`echo $myTimeGMT | cut -c 5,6`
+
+echo $myTime
+echo $myHour $myMin $mySec
+
+dStart=$dayN'.'$myTime
+
+echo "dStart " $dStart
+
+if [ $mixing = 'GLS' ]
+then
+	echo "GLS mixing"
+	dirName="NORSE1D_5km_"$mode"__"$source"Cast_"$n"__"$myDate"_"$myHour":"$myMin":"$mySec"__"$lon"E__"$lat"N__"$forcing"_"$mixing"__GLS_Kmin_"$GLS_Kmin
+else
+	echo "LMD mixing"
+    dirName="NORSE1D_5km_"$mode"__"$source"Cast_"$n"__"$myDate"_"$myHour":"$myMin":"$mySec"__"$lon"E__"$lat"N__"$forcing"_"$mixing	
+fi
+echo $dirName
+
+
+
+
+#############
+
+# Make a new grid file
+
+echo " "
+echo " !!!  make a new grid file"
+echo " "
+
+cd ../../InputFiles/Gridpak_scripted
+
+
+\rm NORSE1D_5km.nc
+perl -pe "s/XXX/$lon/" 		hackGrid.bash_template 	> dum
+perl -pe "s/YYY/$lat/"      dum						> hackGrid.bash
+bash hackGrid.bash
+
+
+################
+
+# Make a new IC file
+cd ../B*/ini*
+\rm -r __* remap*.nc
+#perl -pe "s/XXX/$dStart/"      makeGeneric.m_template > makeGeneric.m
+
+source ~/.runPycnal
+python make_remap*
+python make_ic*
+mv source_* /import/c1/VERTMIX/jgpender/coawst/NORSE1D_5km/Experiments/configure/IC.nc
+
+#module purge
+#. /etc/profile.d/modules.sh
+#module load matlab/R2013a
+#matlab -nodisplay -nosplash < makeGeneric.m
+
+cd ../../Gridpak_scripted
+mv NORSE1D_5km.nc /import/c1/VERTMIX/jgpender/coawst/NORSE1D_5km/Experiments/configure/
+
+
+cd /import/c1/VERTMIX/jgpender/coawst/NORSE1D_5km/Experiments/configure
+
+
+
+###########
+
+# Update all the fields for zero motion and new S/T profile
+
+perl -pe "s/XXX/$n/" util/customizeST_template.m 	> dum
+perl -pe "s/YYY/$dStart/" dum 						> customizeST.m
+
+module purge
+. /etc/profile.d/modules.sh
+module load matlab/R2013a
+matlab -nodisplay -nosplash < customizeST.m
+
+
+
+#################
+
+# subset the surface forcing files and make them laterally uniform
+
+cd ../../InputFiles/Forcing
+pwd
+
+perl -pe "s/XXX/$lon/"      subsetForcing_template.m_$forcing	> dum
+perl -pe "s/YYY/$lat/"      dum                     			> subsetForcing.m
+
+matlab -nodisplay -nosplash < subsetForcing.m
+
+cd -
+
+
+
+
+
+
+############
+
+# Move everything to a new experiment directory
+
+# dirName now constructed above
+#dirName="NORSE1D_5km__cast_"$n"__"$myDate"_"$myTimeGMT"__"$lon"E__"$lat"N__"$mode"_"$mixing
+echo ' '
+echo 'experiment directory:'
+echo $dirName
+
+oceanName="ocean_niskine1d_2km_"$mode".in_"$forcing"_"$mixing
+#echo "oceanName" $oceanName
+
+coawstName="coawstM_"$mode"_"$mixing
+#echo "coawstName "$coawstName
+
+
+
+mkdir 																												../$dirName
+mkdir               																								../$dirName/netcdfOutput
+
+perl -pe "s/YYY/$dStart/" util/$oceanName  | perl -pe "s/ZZZ/$GLS_Kmin/"      										> ../$dirName/$oceanName
+
+cp util/$coawstName																									../$dirName
+mv IC.nc 																											../$dirName
+mv NORSE*.nc																										../$dirName
+cp -r ../../InputFiles/Forcing																						../$dirName
+
+
+echo "mpirun -np 1 coawstM* ocean* > log; bash /import/home/jgpender/addl_Scripts/timeROMS/getRunTime.bash >> log"  > ../$dirName/run
+chmod gou+x                                     																	../$dirName/run
+
+
+# run the experiment
+cd ../$dirName
+
+source ~/.runROMSintel
+./run &

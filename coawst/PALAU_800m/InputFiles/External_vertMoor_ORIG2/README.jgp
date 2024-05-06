@@ -1,0 +1,38 @@
+Apparently all you have to do is edit 
+	sta.pl
+so that Nx and Ny are OK, then type
+	perl sta.pl > stations
+This set of numbers then needs to be copy/pasted together with the starting lines of stations_TS.in_HEAD
+
+
+Be sure to edit stations_TS.in_HEAD line 182  so that it matches the number of lines in stations
+
+pacman6 1136% wc stations
+  850  3400 16048 stations
+pacman6 1137% m *.in |grep NSTATION
+    NSTATION ==  850
+
+
+list this:
+
+cat stations_TS.in_HEAD stations >>stations_TS.in
+ 
+
+
+
+************
+
+
+The process for creating a floats input file is similar
+1) run the matlab script
+		floatLocations.m
+     	after you're sure the lat/lon limits are OK.
+	NOTE: I cut the limits back a little bit from the edges
+     
+	This gives you a text file of data.
+
+2) add the number of lines to the header file
+
+2) merge the data with the header file
+		floats_PALAU_part1.in
+	

@@ -1,0 +1,11 @@
+#
+id  = NORSE1D_5km_n42  
+name    = NORSE1D_5km_n42
+grdfile = /import/c1/VERTMIX/jgpender/coawst/NORSE1D_5km_n42/InputFiles/Gridpak_scripted/NORSE1D_5km_n42.nc
+N   = 42
+grdtype = roms
+Vtrans  = 4
+theta_s = 6
+theta_b = .3
+Tcline  = 100
+#

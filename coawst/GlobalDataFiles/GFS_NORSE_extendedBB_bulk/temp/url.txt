@@ -1,0 +1,1 @@
+https://thredds.rda.ucar.edu/thredds/ncss/grid/files/g/ds084.1/2021/20210701/gfs.0p25.2021070100.f009.grib2?var=Upward_Short-Wave_Radiation_Flux_surface_3_Hour_Average&north=70&west=-13&east=12&south=60&horizStride=1&time_start=2021-07-01T09:00:00Z&time_end=2021-07-01T09:00:00Z&&&accept=netcdf3&addLatLon=true

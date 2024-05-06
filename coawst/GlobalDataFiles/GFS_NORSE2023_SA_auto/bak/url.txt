@@ -1,0 +1,1 @@
+https://thredds.rda.ucar.edu/thredds/ncss/grid/files/g/ds084.1/2023/20231110/gfs.0p25.2023111000.f096.grib2?var=Sensible heat net flux (3_Hour Average) @ Ground or water surface&north=72.5&west=-20&east=10&south=65&horizStride=1&time_start=2023-11-14T00:00:00Z&time_end=2023-11-14T00:00:00Z&timeStride=1&vertStride=1&accept=netcdf3&addLatLon=true

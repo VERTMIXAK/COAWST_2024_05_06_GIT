@@ -1,0 +1,3 @@
+download perigee forcing files to the originals directory then run
+
+bash fixTimes.bash

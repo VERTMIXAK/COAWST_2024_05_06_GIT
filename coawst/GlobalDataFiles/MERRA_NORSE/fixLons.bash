@@ -1,0 +1,12 @@
+source ~/.runPycnal
+
+python makePosLonsNeg.py MERRA_albedo_daily_2018_NORSE.nc
+python makePosLonsNeg.py MERRA_cloud_3hours_2018_NORSE.nc
+python makePosLonsNeg.py MERRA_lwrad_down_3hours_2018_NORSE.nc
+python makePosLonsNeg.py MERRA_Pair_3hours_2018_NORSE.nc
+python makePosLonsNeg.py MERRA_Qair_3hours_2018_NORSE.nc
+python makePosLonsNeg.py MERRA_rain_3hours_2018_NORSE.nc
+python makePosLonsNeg.py MERRA_swrad_3hours_2018_NORSE.nc
+python makePosLonsNeg.py MERRA_Tair_3hours_2018_NORSE.nc
+python makePosLonsNeg.py MERRA_Uwind_3hours_2018_NORSE.nc
+python makePosLonsNeg.py MERRA_Vwind_3hours_2018_NORSE.nc

@@ -1,0 +1,309 @@
+NCKS(1)                                                                NCKS(1)
+
+
+
+NNAAMMEE
+       ncks - netCDF Kitchen Sink
+
+SSYYNNTTAAXX
+       ncks  [-3]  [-4]  [-5]  [-6]  [-A]  [-a] [-b _b_n_r___f_l_] [--bfr _s_z]_[_-_C_][-c]
+       [--cdl] [--cnk_dmn _n_m_,_s_z] [--cnk_map _m_a_p]  [--cnk_plc  _p_l_c]  [--cnk_scl
+       _s_z]   [-D   _d_b_g___l_v_l_]   [-d   _d_i_m,[   _m_i_n][,[  _m_a_x]][,[  _s_t_r_i_d_e]]]  [-F]
+       [--fix_rec_dmn _d_i_m] [-G _g_p_e___d_s_c] [-g _g_r_p[,...]]  [-H]  [-h]  [--hdr_pad
+       _s_z]   [-L   _d_f_l___l_v_l]   [-l   _p_a_t_h]  [-M]  [-m]  [--md5]   [--mk_rec_dmn
+       _d_i_m]_[_-_-_m_s_a_][--no_blank]_[_-_-_n_o___t_m_p___f_l_][-O]_[_-_o _o_u_t_p_u_t_-_f_i_l_e] [-P] [-p _p_a_t_h]
+       [-Q] [-q] [-R] [-r] [--ram_all] [-s _f_o_r_m_a_t] [-u] [--unn] [-v _v_a_r[,...]]
+       [-X _b_o_x] [-x] [--xml] _i_n_p_u_t_-_f_i_l_e [ _o_u_t_p_u_t_-_f_i_l_e]
+
+DDEESSCCRRIIPPTTIIOONN
+       nncckkss combines every feature we could think of, except the kitchen sink,
+       into one versatile utility to manipulate netCDF files.  nncckkss extracts a
+       subset of the data from _i_n_p_u_t_-_f_i_l_e and either prints it as  ASCII  text
+       to stdout, or writes (or pastes) it to _o_u_t_p_u_t_-_f_i_l_e, or both.
+
+       nncckkss will print netCDF data in ASCII format to ssttddoouutt, like nnccdduummpp, but
+       with these differences: nncckkss prints data in a tabular  format  intended
+       to  be easy to search for the data you want, one datum per screen line,
+       with all dimension subscripts and coordinate values (if any)  preceding
+       the datum.  Option --ss allows the user the format the data using C-style
+       format strings.
+
+       Options --aa, --FF, --HH, --MM, --mm,  --qq,  --ss,  and  --uu  control  the  formatted
+       appearance of the data.
+
+       nncckkss  will  extract  (and optionally create a new netCDF file comprised
+       of) only selected variable from the input file, like  nncceexxttrr  but  with
+       these  differences:  Only variables and coordinates may be specifically
+       included or excluded---all global attributes and any attribute  associ-
+       ated  with  an  extracted  variable will be copied to the screen and/or
+       output netCDF file.  Options --cc, --CC, --vv, and --xx control which variables
+       are extracted.
+
+       nncckkss  will  extract  hyperslabs  from the specified variables.  In fact
+       nncckkss implements the nccut specification exactly.   Option  --dd  controls
+       the hyperslab specification.
+
+       Input  dimensions that are not associated with any output variable will
+       not appear in the output  netCDF.   This  feature  removes  superfluous
+       dimensions from a netCDF file.
+
+       nncckkss  will  append variables and attributes from the _i_n_p_u_t_-_f_i_l_e to _o_u_t_-
+       _p_u_t_-_f_i_l_e if _o_u_t_p_u_t_-_f_i_l_e is a pre-existing netCDF  file  whose  relevant
+       dimensions  conform  to dimension sizes of _i_n_p_u_t_-_f_i_l_e.  The append fea-
+       tures of nncckkss are intended to provide a  rudimentary  means  of  adding
+       data  from  one  netCDF file to another, conforming, netCDF file.  When
+       naming conflicts exists between the two files, data in  _o_u_t_p_u_t_-_f_i_l_e  is
+       usually overwritten by the corresponding data from _i_n_p_u_t_-_f_i_l_e.  Thus it
+       is recommended that the user backup _o_u_t_p_u_t_-_f_i_l_e in case  valuable  data
+       is accidentally overwritten.
+
+       If  _o_u_t_p_u_t_-_f_i_l_e  exists, the user will be queried whether to _o_v_e_r_w_r_i_t_e,
+       _a_p_p_e_n_d, or _e_x_i_t the nncckkss call completely.  Choosing _o_v_e_r_w_r_i_t_e  destroys
+       the existing _o_u_t_p_u_t_-_f_i_l_e and create an entirely new one from the output
+       of the nncckkss call.   Append  has  differing  effects  depending  on  the
+       uniqueness  of  the variables and attributes output by nncckkss: If a vari-
+       able or attribute extracted from _i_n_p_u_t_-_f_i_l_e does not have a  name  con-
+       flict  with the members of _o_u_t_p_u_t_-_f_i_l_e then it will be added to _o_u_t_p_u_t_-
+       _f_i_l_e without overwriting any of the existing contents  of  _o_u_t_p_u_t_-_f_i_l_e.
+       In  this  case the relevant dimensions must agree (conform) between the
+       two files; new dimensions are created in _o_u_t_p_u_t_-_f_i_l_e as required.  When
+       a  name  conflict occurs, a global attribute from _i_n_p_u_t_-_f_i_l_e will over-
+       write the corresponding global attribute from _o_u_t_p_u_t_-_f_i_l_e.  If the name
+       conflict occurs for a non-record variable, then the dimensions and type
+       of the variable (and of its coordinate dimensions, if any)  must  agree
+       (conform)  in both files.  Then the variable values (and any coordinate
+       dimension values) from  _i_n_p_u_t_-_f_i_l_e  will  overwrite  the  corresponding
+       variable  values  (and  coordinate dimension values, if any) in _o_u_t_p_u_t_-
+       _f_i_l_e
+
+       Since there can only be one record dimension  in  a  file,  the  record
+       dimension  must  have the same name (but not necessarily the same size)
+       in both files if a record dimension variable is to be appended.  If the
+       record  dimensions are of differing sizes, the record dimension of _o_u_t_-
+       _p_u_t_-_f_i_l_e will become the greater of the two record dimension sizes, the
+       record  variable from _i_n_p_u_t_-_f_i_l_e will overwrite any counterpart in _o_u_t_-
+       _p_u_t_-_f_i_l_e and fill values will be written to any gaps left in  the  rest
+       of the record variables (I think).  In all cases variable attributes in
+       _o_u_t_p_u_t_-_f_i_l_e are superseded by attributes of the same name  from  _i_n_p_u_t_-
+       _f_i_l_e, and left alone if there is no name conflict.
+
+       Some  users may wish to avoid interactive nncckkss queries about whether to
+       overwrite existing data.  For example, batch scripts will fail if  nncckkss
+       does  not  receive  responses  to  its  queries.  Options --OO and --AA are
+       available to force overwriting existing files  and  variables,  respec-
+       tively.
+
+       Options specific to nncckkss
+
+       The  following  list provides a short summary of the features unique to
+       nncckkss.
+
+
+
+       --aa     Do not alphabetize extracted fields.  By default, the  specified
+              output  variables are extracted, printed, and written to disk in
+              alphabetical order.  This tends to make long output lists easier
+              to  search  for  particular variables.  Specifying --aa results in
+              the variables being extracted, printed, and written to  disk  in
+              the  order  in which they were saved in the input file.  Thus --aa
+              retains the original ordering of the variables.
+
+
+       --dd     _d_i_m,[ _m_i_n][,[ _m_a_x]][,[ _s_t_r_i_d_e]] Add _s_t_r_i_d_e  argument  to  hyper-
+              slabber.
+
+
+       --HH     Print  data to screen.  The default behavior is to print data to
+              screen if no netCDF output file is specified.  Use --HH  to  print
+              data  to screen if a netCDF output is specified (the same behav-
+              ior applies to --mm ).  Unless otherwise specified (with --ss), each
+              element of the data hyperslab is printed on a separate line con-
+              taining the names, indices, and, values, if any, of all  of  the
+              variables  dimensions.  The dimension and variable indices refer
+              to the location of the corresponding data element  with  respect
+              to the variable as stored on disk (i.e., not the hyperslab).
+              % ncks -H -C -v three_dmn_var in.nc
+              lat[0]=-90 lev[0]=100 lon[0]=0 three_dmn_var[0]=0
+              lat[0]=-90 lev[0]=100 lon[1]=90 three_dmn_var[1]=1
+              lat[0]=-90 lev[0]=100 lon[2]=180 three_dmn_var[2]=2
+               ...
+              lat[1]=90 lev[2]=1000 lon[1]=90 three_dmn_var[21]=21
+              lat[1]=90 lev[2]=1000 lon[2]=180 three_dmn_var[22]=22
+              lat[1]=90 lev[2]=1000 lon[3]=270 three_dmn_var[23]=23
+       Printing  the  same variable with the --FF option shows the same variable
+       indexed with Fortran conventions
+              % ncks -F -H -C -v three_dmn_var in.nc
+              lon(1)=0 lev(1)=100 lat(1)=-90 three_dmn_var(1)=0
+              lon(2)=90 lev(1)=100 lat(1)=-90 three_dmn_var(2)=1
+              lon(3)=180 lev(1)=100 lat(1)=-90 three_dmn_var(3)=2
+               ...
+       Printing a hyperslab does not affect the variable or dimension  indices
+       since these indices are relative to the full variable (as stored in the
+       input file), and the input file  has  not  changed.   However,  if  the
+       hypserslab is saved to an output file and those values are printed, the
+       indices will change:
+              % ncks -H -d  lat,90.0  -d  lev,1000.0  -v  three_dmn_var  in.nc
+              out.nc
+              lat[1]=90 lev[2]=1000 lon[0]=0 three_dmn_var[20]=20
+              lat[1]=90 lev[2]=1000 lon[1]=90 three_dmn_var[21]=21
+              lat[1]=90 lev[2]=1000 lon[2]=180 three_dmn_var[22]=22
+              lat[1]=90 lev[2]=1000 lon[3]=270 three_dmn_var[23]=23
+              % ncks -H out.nc
+              lat[0]=90 lev[0]=1000 lon[0]=0 three_dmn_var[0]=20
+              lat[0]=90 lev[0]=1000 lon[1]=90 three_dmn_var[1]=21
+              lat[0]=90 lev[0]=1000 lon[2]=180 three_dmn_var[2]=22
+              lat[0]=90 lev[0]=1000 lon[3]=270 three_dmn_var[3]=23
+
+
+       --MM     Print  to  screen the global metadata describing the file.  This
+              includes file summary information and global attributes.
+
+
+       --mm     Print variable metadata to screen (similar to nnccdduummpp --hh).   This
+              displays  all metadata pertaining to each variable, one variable
+              at a time.
+
+
+       --qq     Toggle printing of dimension indices and coordinate values  when
+              printing  arrays.   The  name of each variable will appear flush
+              left in the output.  This is useful when trying to  locate  spe-
+              cific  variables  when  displaying many variables with different
+              dimensions.  The mnemonic for this option is "quiet".
+
+
+       --ss     _f_o_r_m_a_t String format for text output. Accepts C language  escape
+              sequences and pprriinnttff(()) formats.
+
+
+       --uu     Accompany  the  printing  of  a variable’s values with its units
+              attribute, if it exists.
+
+EEXXAAMMPPLLEESS
+       View all data in netCDF iinn..nncc, printed with  Fortran  indexing  conven-
+       tions:
+              ncks -H -F in.nc
+
+       Copy the netCDF file iinn..nncc to file oouutt..nncc.
+              ncks -O in.nc out.nc
+       Now  the file oouutt..nncc contains all the data from iinn..nncc.  There are, how-
+       ever, two differences between iinn..nncc and  oouutt..nncc.   First,  the  hhiissttoorryy
+       global  attribute will contain the command used to create oouutt..nncc.  Sec-
+       ond, the variables in oouutt..nncc will be defined in alphabetical order.  Of
+       course  the  internal  storage  of  variable in a netCDF file should be
+       transparent to the user, but there are cases when alphabetizing a  file
+       is useful (see description of --aa switch).
+
+       Print  variable  tthhrreeee__ddmmnn__vvaarr  from file iinn..nncc with default notations.
+       Next print tthhrreeee__ddmmnn__vvaarr as an un-annotated text  column.   Then  print
+       tthhrreeee__ddmmnn__vvaarr   signed   with  very  high  precision.   Finally,  print
+       tthhrreeee__ddmmnn__vvaarr as a comma-separated list.
+              % ncks -H -C -v three_dmn_var in.nc
+              lat[0]=-90 lev[0]=100 lon[0]=0 three_dmn_var[0]=0
+              lat[0]=-90 lev[0]=100 lon[1]=90 three_dmn_var[1]=1
+               ...
+              lat[1]=90 lev[2]=1000 lon[3]=270 three_dmn_var[23]=23
+              % ncks -s "%f\n" -H -C -v three_dmn_var in.nc
+              0.000000
+              1.000000
+               ...
+              23.000000
+              % ncks -s "%+16.10f\n" -H -C -v three_dmn_var in.nc
+                 +0.0000000000
+                 +1.0000000000
+               ...
+                +23.0000000000
+              % ncks -s "%f, " -H -C -v three_dmn_var in.nc
+              0.000000, 1.000000,  ... , 23.000000,
+       The second and third options are useful when  pasting  data  into  text
+       files like reports or papers.
+
+       One  dimensional  arrays  of  characters stored as netCDF variables are
+       automatically printed as strings, whether or not  they  are  NUL-termi-
+       nated, e.g.,
+              ncks -v fl_nm in.nc
+       The  %%cc  formatting code is useful for printing multidimensional arrays
+       of characters representing fixed length strings
+              ncks -H -s "%c" -v fl_nm_arr in.nc
+       Using the %%ss format code on strings which are not  NUL-terminated  (and
+       thus not technically strings) is likely to result in a core dump.
+
+       Create netCDF oouutt..nncc containing all variables, and any associated coor-
+       dinates, except variable ttiimmee, from netCDF iinn..nncc:
+              ncks -x -v time in.nc out.nc
+
+       Extract variables ttiimmee and pprreessssuurree from netCDF iinn..nncc.  If oouutt..nncc  does
+       not  exist  it  will  be  created.   Otherwise the you will be prompted
+       whether to append to or to overwrite oouutt..nncc:
+              ncks -v time,pressure in.nc out.nc
+              ncks -C -v time,pressure in.nc out.nc
+       The first version of the command creates an oouutt..nncc which contains ttiimmee,
+       pprreessssuurree,  and  any coordinate variables associated with _p_r_e_s_s_u_r_e.  The
+       oouutt..nncc from the second version is guaranteed to contain only two  vari-
+       ables ttiimmee and pprreessssuurree.
+
+       Create   netCDF  oouutt..nncc  containing  all  variables  from  file  iinn..nncc.
+       Restrict the dimensions of these variables to a hyperslab.  Print (with
+       --HH)  the  hyperslabs  to  the  screen  for good measure.  The specified
+       hyperslab is: the sixth value in dimension ttiimmee;  the  half-open  range
+       _l_a_t <= 0.0 in coordinate llaatt; the half-open range _l_o_n >= 330.0 in coor-
+       dinate lloonn; the closed interval 0.3 <= _b_a_n_d <= 0.5 in coordinate  bbaanndd;
+       and  cross-section closest to 1000.0 in coordinate lleevv.  Note that lim-
+       its applied to coordinate values are specified with  a  decimal  point,
+       and limits applied to dimension indices do not have a decimal point.
+              ncks  -H  -d  time,5  -d  lat,,0.  -d lon,330., -d band,.3,.5 -d
+              lev,1000. in.nc out.nc
+
+       Assume the domain of the monotonically increasing longitude  coordinate
+       lloonn is 0 < _l_o_n < 360.  Here, lloonn is an example of a wrapped coordinate.
+       nncckkss will extract a hyperslab which crosses the Greenwich meridian sim-
+       ply  by specifying the westernmost longitude as _m_i_n and the easternmost
+       longitude as _m_a_x, as follows:
+              ncks -d lon,260.,45. in.nc out.nc
+
+
+AAUUTTHHOORR
+       NNCCOO manual pages written by Charlie Zender and originally formatted  by
+       Brian Mays.
+
+
+RREEPPOORRTTIINNGG BBUUGGSS
+       Report bugs to <http://sf.net/bugs/?group_id=3331>.
+
+
+CCOOPPYYRRIIGGHHTT
+       Copyright © 1995-2012 Charlie Zender
+       This is free software; see the source for copying conditions.  There is
+       NO warranty; not even for MERCHANTABILITY or FITNESS FOR  A  PARTICULAR
+       PURPOSE.
+
+
+SSEEEE AALLSSOO
+       The full documentation for NNCCOO is maintained as a Texinfo manual called
+       the NNCCOO UUsseerr’’ss GGuuiiddee..  Because NNCCOO is mathematical in nature, the docu-
+       mentation  includes  TeX-intensive  portions not viewable on character-
+       based displays.  Hence the only complete and authoritative versions  of
+       the  NNCCOO  UUsseerr’’ss  GGuuiiddee  are the PDF (recommended), DVI, and Postscript
+       versions at  <http://nco.sf.net/nco.pdf>,  <http://nco.sf.net/nco.dvi>,
+       and  <http://nco.sf.net/nco.ps>,  respectively.   HTML and XML versions
+       are      available      at       <http://nco.sf.net/nco.html>       and
+       <http://nco.sf.net/nco.xml>, respectively.
+
+       If  the  iinnffoo and NNCCOO programs are properly installed at your site, the
+       command
+
+              iinnffoo nnccoo
+
+       should give you access to the complete  manual,  except  for  the  TeX-
+       intensive portions.
+
+       nnccaapp(1),  nnccaapp22(1), nnccaatttteedd(1), nnccbboo(1), nnccddiiffff(1), nncceeaa(1), nncceeccaatt(1),
+       nnccfflliinntt(1), nncckkss(1), nnccoo(1), nnccppddqq(1), nnccrraa(1), nnccrrccaatt(1), nnccrreennaammee(1),
+       nnccwwaa(1)
+
+
+HHOOMMEEPPAAGGEE
+       The NNCCOO homepage at <http://nco.sf.net> contains more information.
+
+
+
+                                                                       NCKS(1)

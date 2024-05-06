@@ -1,0 +1,2 @@
+cp -f /usr/local/pkg/data/netCDF/4.4.1.1-pic-intel-2016b/include/netcdf.mod Build
+cp -f /usr/local/pkg/data/netCDF/4.4.1.1-pic-intel-2016b/include/typesizes.mod Build

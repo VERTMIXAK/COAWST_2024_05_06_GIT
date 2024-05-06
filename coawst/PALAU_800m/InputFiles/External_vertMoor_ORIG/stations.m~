@@ -1,0 +1,18 @@
+clear;
+
+myGrid = '../Gridpak/NISKINE_4km.nc';
+
+
+load('vertMoor.mat')
+
+lat = nc_varget(myGrid,'lat_psi');
+lon = nc_varget(myGrid,'lon_psi');
+
+myStations = vertMoor;
+
+[ns, nx] = size(myStations);
+
+for ss=1:1
+    find(min(min(  (lat -     )))
+end;
+

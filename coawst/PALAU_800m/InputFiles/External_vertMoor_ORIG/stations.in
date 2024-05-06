@@ -1,0 +1,632 @@
+!  Station Extraction Parameters.
+!
+!==============================================================================
+!  Copyright (c) 2002-2013 The ROMS/TOMS Group                              ===
+!========================================================= Hernan G. Arango ===
+!                                                                             !
+! Input parameters can be entered in ANY order, provided that the parameter   !
+! KEYWORD (usually, upper case) is typed correctly followed by "="  or "=="   !
+! symbols. Any comment lines are allowed and must begin with an exclamation   !
+! mark (!) in column one.  Comments may  appear to the right of a parameter   !
+! specification to improve documentation.  All comments will ignored during   !
+! reading.  Blank lines are also allowed and ignored. Continuation lines in   !
+! a parameter specification are allowed and must be preceded by a backslash   !
+! (\).  In some instances, more than one value is required for a parameter.   !
+! If fewer values are provided, the  last value  is assigned for the entire   !
+! parameter array.  The multiplication symbol (*),  without blank spaces in   !
+! between, is allowed for a parameter specification.  For example, in a two   !
+! grids nested application:                                                   !
+!                                                                             !
+!    AKT_BAK == 2*1.0d-6  2*5.0d-6              ! m2/s                        !
+!                                                                             !
+! indicates that the first two entries of array AKT_BAK,  in fortran column-  !
+! major order, will have the same value of "1.0d-6" for grid 1,  whereas the  !
+! next two entries will have the same value of "5.0d-6" for grid 2.           !
+!                                                                             !
+! In multiple levels of nesting and/or multiple connected domains  step-ups,  !
+! "Ngrids" entries are expected for some of these parameters.  In such case,  !
+! the order of the entries for a parameter is extremely important.  It  must  !
+! follow the same order (1:Ngrids) as in the state variable declaration. The  !
+! USER may follow the above guidelines for specifying his/her values.  These  !
+! parameters are marked by "==" plural symbol after the KEYWORD.              !
+!                                                                             !
+!==============================================================================
+!
+! Switch to control the writing of stations data within nested and/or multiple
+! connected grids, [1:Ngrids].
+
+   Lstations == T
+
+! Logical switches (TRUE/FALSE) to activate writing of fields in STATION
+! output file, [Sout(:,ng), ng=1, Ngrids].
+
+Sout(idUvel) == T       ! u                  3D U-velocity
+Sout(idVvel) == T       ! v                  3D V-velocity
+Sout(idu3dE) == F       ! u_eastward         3D U-eastward at RHO-points
+Sout(idv3dN) == F       ! v_northward        3D V-nortward at RHO-points
+Sout(idWvel) == T       ! w                  3D W-velocity
+Sout(idOvel) == T       ! omega              3D omega vertical velocity
+Sout(idUbar) == T       ! ubar               2D U-velocity
+Sout(idVbar) == T       ! vbar               2D V-velocity
+Sout(idu2dE) == F       ! ubar_eastward      2D U-eastward  at RHO-points
+Sout(idv2dN) == F       ! vbar_northward     2D V-northward at RHO-points
+Sout(idFsur) == T       ! zeta               free-surface
+Sout(idBath) == T       ! bath               time-dependent bathymetry
+
+Sout(idTvar) == 16*T    ! all (NT) tracers
+
+Sout(idUsms) == T       ! sustr              surface U-stress
+Sout(idVsms) == T       ! svstr              surface V-stress
+Sout(idUbms) == T       ! bustr              bottom U-stress
+Sout(idVbms) == T       ! bvstr              bottom V-stress
+
+Sout(idUbrs) == F       ! bustrc             bottom U-current stress
+Sout(idVbrs) == F       ! bvstrc             bottom V-current stress
+Sout(idUbws) == F       ! bustrw             bottom U-wave stress
+Sout(idVbws) == F       ! bvstrw             bottom V-wave stress
+Sout(idUbcs) == F       ! bustrcwmax         bottom max wave-current U-stress
+Sout(idVbcs) == F       ! bvstrcwmax         bottom max wave-current V-stress
+
+Sout(idUbot) == F       ! Ubot               bed wave orbital U-velocity
+Sout(idVbot) == F       ! Vbot               bed wave orbital V-velocity
+Sout(idUbur) == F       ! Ur                 bottom U-velocity above bed
+Sout(idVbvr) == F       ! Vr                 bottom V-velocity above bed
+
+Sout(idW2xx) == F       ! Sxx_bar            2D radiation stress, Sxx component
+Sout(idW2xy) == F       ! Sxy_bar            2D radiation stress, Sxy component
+Sout(idW2yy) == F       ! Syy_bar            2D radiation stress, Syy component
+Sout(idU2rs) == F       ! Ubar_Rstress       2D radiation U-stress
+Sout(idV2rs) == F       ! Vbar_Rstress       2D radiation V-stress
+Sout(idU2Sd) == F       ! ubar_stokes        2D U-Stokes velocity
+Sout(idV2Sd) == F       ! vbar_stokes        2D V-Stokes velocity
+
+Sout(idW3xx) == F       ! Sxx                3D radiation stress, Sxx component
+Sout(idW3xy) == F       ! Sxy                3D radiation stress, Sxy component
+Sout(idW3yy) == F       ! Syy                3D radiation stress, Syy component
+Sout(idW3zx) == F       ! Szx                3D radiation stress, Szx component
+Sout(idW3zy) == F       ! Szy                3D radiation stress, Szy component
+Sout(idU3rs) == F       ! u_Rstress          3D U-radiation stress
+Sout(idV3rs) == F       ! v_Rstress          3D V-radiation stress
+Sout(idU3Sd) == F       ! u_stokes           3D U-Stokes velocity
+Sout(idV3Sd) == F       ! v_stokes           3D V-Stokes velocity
+
+Sout(idWamp) == F       ! Hwave              wave height
+Sout(idWlen) == F       ! Lwave              wave length
+Sout(idWdir) == F       ! Dwave              wave direction
+Sout(idWptp) == F       ! Pwave_top          wave surface period
+Sout(idWpbt) == F       ! Pwave_bot          wave bottom period
+Sout(idWorb) == F       ! Ub_swan            wave bottom orbital velocity
+Sout(idWdis) == F       ! Wave_dissip        wave dissipation
+
+Sout(idPair) == T       ! Pair               surface air pressure
+Sout(idUair) == T       ! Uair               surface U-wind component
+Sout(idVair) == T       ! Vair               surface V-wind component
+
+Sout(idTsur) == T T     ! shflux, ssflux     surface net heat and salt flux
+Sout(idLhea) == T       ! latent             latent heat flux
+Sout(idShea) == T       ! sensible           sensible heat flux
+Sout(idLrad) == T       ! lwrad              longwave radiation flux
+Sout(idSrad) == T       ! swrad              shortwave radiation flux
+Sout(idEmPf) == T       ! EminusP            E-P flux
+Sout(idevap) == F       ! evaporation        evaporation rate
+Sout(idrain) == F       ! rain               precipitation rate
+
+Sout(idDano) == T       ! rho                density anomaly
+Sout(idVvis) == T       ! AKv                vertical viscosity
+Sout(idTdif) == T       ! AKt                vertical T-diffusion
+Sout(idSdif) == T       ! AKs                vertical Salinity diffusion
+Sout(idHsbl) == T       ! Hsbl               depth of surface boundary layer
+Sout(idHbbl) == F       ! Hbbl               depth of bottom boundary layer
+Sout(idMtke) == F       ! tke                turbulent kinetic energy
+Sout(idMtls) == F       ! gls                turbulent length scale
+Sout(idNPP)  == T       ! Bio_NPP            net primary productivity
+
+! Logical switches (TRUE/FALSE) to activate writing of exposed sediment
+! layer properties into STATIONS output file.  Currently, MBOTP properties
+! are expected for the bottom boundary layer and/or sediment models:
+!
+! idBott( 1=isd50)   grain_diameter          mean grain diameter
+! idBott( 2=idens)   grain_density           mean grain density
+! idBott( 3=iwsed)   settling_vel            mean settling velocity
+! idBott( 4=itauc)   erosion_stres           critical erosion stress
+! idBott( 5=irlen)   ripple_length           ripple length
+! idBott( 6=irhgt)   ripple_height           ripple height
+! idBott( 7=ibwav)   bed_wave_amp            wave excursion amplitude
+! idBott( 8=izdef)   Zo_def                  default bottom roughness
+! idBott( 9=izapp)   Zo_app                  apparent bottom roughness
+! idBott(10=izNik)   Zo_Nik                  Nikuradse bottom roughness
+! idBott(11=izbio)   Zo_bio                  biological bottom roughness
+! idBott(12=izbfm)   Zo_bedform              bed form bottom roughness
+! idBott(13=izbld)   Zo_bedload              bed load bottom roughness
+! idBott(14=izwbl)   Zo_wbl                  wave bottom roughness
+! idBott(15=iactv)   active_layer_thickness  active layer thickness
+! idBott(16=ishgt)   saltation               saltation height
+!
+!                                 1 1 1 1 1 1 1
+!               1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6
+
+Sout(idBott) == F F F F F F F F F F F F F F F F
+
+! Logical switches for bio sediment variables.
+Sout(idPONsed) == T
+Sout(idOPALsed) == T
+Sout(idDENITsed) == T
+Sout(idPONbur) == T
+Sout(idOPALbur) == T
+
+! Logical switches (TRUE/FALSE) to activate writing of ice prognostic
+! variables into HISTORY output file.
+Sout(idUice) == T
+Sout(idVice) == T
+Sout(idAice) == T
+Sout(idHice) == T
+Sout(idTice) == T
+Sout(idHsno) == T
+Sout(idTimid) == T
+Sout(idSfwat) == T
+Sout(idTauiw) == F
+Sout(idChuiw) == F
+Sout(idAgeice) == T
+Sout(idSig11) == T
+Sout(idSig12) == T
+Sout(idSig22) == T
+Sout(idWfr) == T
+! These two cause trouble...
+Sout(idS0mk) == T
+Sout(idT0mk) == T
+
+! Number of stations to process in each nested grid.  These values are
+! essential because the station arrays are dynamically allocated using
+! these values, [1:Ngrids].
+
+    NSTATION ==  439
+
+! Station locations for all grids in any desired order.  The horizontal
+! location for a particular station may be specified in terms of fractional
+! (I,J) grid pairs (FLAG=0) or (longitude,latitude) grid pairs (FLAG=1).
+! Here, FLAG is a special switch and may be used for multiple purposes.
+! The GRID column indicates nested grid number to process. This value must
+! be one in non-nested applications.  The COMMENT section is ignored during
+! reading and may be used to help documentation.
+
+POS =  GRID  FLAG      X-POS       Y-POS     COMMENT
+
+1	1	134.5124969	7.268116474
+1	1	134.2208405	6.96760416
+1	1	134.1208344	6.917500019
+1	1	134.2291718	7.284805775
+1	1	134.4458313	7.560088158
+1	1	134.6708374	8.060148239
+1	1	134.6458282	7.493369102
+1	1	134.5458374	7.259771347
+1	1	134.2458344	6.975954533
+1	1	134.2124939	7.176313877
+1	1	134.3208313	7.434980869
+1	1	134.6458282	7.493369102
+1	1	134.6208344	7.359899998
+1	1	134.662501	7.87122186
+1	1	134.6541646	7.682295481
+1	1	134.7615582	8.060148239
+1	1	134.8522789	8.060148239
+1	1	134.9429997	8.060148239
+1	1	135.0337205	8.060148239
+1	1	135.1244412	8.060148239
+1	1	135.215162	8.060148239
+1	1	135.3058828	8.060148239
+1	1	135.3966035	8.060148239
+1	1	135.4873243	8.060148239
+1	1	135.5780451	8.060148239
+1	1	135.6687658	8.060148239
+1	1	135.7594866	8.060148239
+1	1	135.8502074	8.060148239
+1	1	135.9409281	8.060148239
+1	1	136.0316489	8.060148239
+1	1	134.7364273	7.493369102
+1	1	134.8270265	7.493369102
+1	1	134.9176256	7.493369102
+1	1	135.0082247	7.493369102
+1	1	135.0988238	7.493369102
+1	1	135.1894229	7.493369102
+1	1	135.280022	7.493369102
+1	1	135.3706211	7.493369102
+1	1	135.4612202	7.493369102
+1	1	135.5518193	7.493369102
+1	1	135.6424184	7.493369102
+1	1	135.7330175	7.493369102
+1	1	135.8236166	7.493369102
+1	1	135.9142157	7.493369102
+1	1	136.0048148	7.493369102
+1	1	134.7114061	7.359899998
+1	1	134.8019779	7.359899998
+1	1	134.8925497	7.359899998
+1	1	134.9831215	7.359899998
+1	1	135.0736932	7.359899998
+1	1	135.164265	7.359899998
+1	1	135.2548368	7.359899998
+1	1	135.3454086	7.359899998
+1	1	135.4359804	7.359899998
+1	1	135.5265521	7.359899998
+1	1	135.6171239	7.359899998
+1	1	135.7076957	7.359899998
+1	1	135.7982675	7.359899998
+1	1	135.8888393	7.359899998
+1	1	135.979411	7.359899998
+1	1	134.7531802	7.87122186
+1	1	134.8438594	7.87122186
+1	1	134.9345386	7.87122186
+1	1	135.0252178	7.87122186
+1	1	135.115897	7.87122186
+1	1	135.2065762	7.87122186
+1	1	135.2972554	7.87122186
+1	1	135.3879346	7.87122186
+1	1	135.4786138	7.87122186
+1	1	135.569293	7.87122186
+1	1	135.6599722	7.87122186
+1	1	135.7506514	7.87122186
+1	1	135.8413306	7.87122186
+1	1	135.9320098	7.87122186
+1	1	136.022689	7.87122186
+1	1	134.7448033	7.682295481
+1	1	134.8354419	7.682295481
+1	1	134.9260806	7.682295481
+1	1	135.0167192	7.682295481
+1	1	135.1073578	7.682295481
+1	1	135.1979965	7.682295481
+1	1	135.2886351	7.682295481
+1	1	135.3792738	7.682295481
+1	1	135.4699124	7.682295481
+1	1	135.560551	7.682295481
+1	1	135.6511897	7.682295481
+1	1	135.7418283	7.682295481
+1	1	135.832467	7.682295481
+1	1	135.9231056	7.682295481
+1	1	136.0137443	7.682295481
+1	1	134.3666687	7.117860317
+1	1	134.5866739	7.2162491
+1	1	134.6608508	7.164381725
+1	1	134.7350277	7.11251435
+1	1	134.8092046	7.060646976
+1	1	134.8833815	7.008779601
+1	1	134.9575584	6.956912227
+1	1	135.0317353	6.905044852
+1	1	135.1059122	6.853177477
+1	1	135.1800891	6.801310103
+1	1	135.254266	6.749442728
+1	1	135.3284429	6.697575354
+1	1	135.4026198	6.645707979
+1	1	135.4767967	6.593840604
+1	1	135.5509736	6.54197323
+1	1	135.6251505	6.490105855
+1	1	134.2949691	6.915736106
+1	1	134.3690978	6.863868053
+1	1	134.4432264	6.811999999
+1	1	134.5173551	6.760131945
+1	1	134.5914838	6.708263891
+1	1	134.6656124	6.656395837
+1	1	134.7397411	6.604527783
+1	1	134.8138698	6.552659729
+1	1	134.8879984	6.500791676
+1	1	134.9621271	6.448923622
+1	1	135.0362558	6.397055568
+1	1	135.1103844	6.345187514
+1	1	135.1845131	6.29331946
+1	1	135.2586417	6.241451406
+1	1	135.3327704	6.189583352
+1	1	134.1949552	6.865631855
+1	1	134.269076	6.81376369
+1	1	134.3431968	6.761895526
+1	1	134.4173176	6.710027362
+1	1	134.4914385	6.658159197
+1	1	134.5655593	6.606291033
+1	1	134.6396801	6.554422868
+1	1	134.7138009	6.502554704
+1	1	134.7879218	6.45068654
+1	1	134.8620426	6.398818375
+1	1	134.9361634	6.346950211
+1	1	135.0102842	6.295082047
+1	1	135.0844051	6.243213882
+1	1	135.1585259	6.191345718
+1	1	135.2326467	6.139477553
+1	1	134.6950264	7.308032836
+1	1	134.7692185	7.256165675
+1	1	134.8434105	7.204298513
+1	1	134.9176026	7.152431352
+1	1	134.9917946	7.10056419
+1	1	135.0659867	7.048697028
+1	1	135.1401788	6.996829867
+1	1	135.2143708	6.944962705
+1	1	135.2885629	6.893095544
+1	1	135.3627549	6.841228382
+1	1	135.436947	6.789361221
+1	1	135.511139	6.737494059
+1	1	135.5853311	6.685626898
+1	1	135.6595232	6.633759736
+1	1	135.7337152	6.581892574
+1	1	134.4408212	7.065992599
+1	1	134.5149737	7.014124882
+1	1	134.5891263	6.962257164
+1	1	134.6632788	6.910389446
+1	1	134.7374313	6.858521729
+1	1	134.8115838	6.806654011
+1	1	134.8857364	6.754786293
+1	1	134.9598889	6.702918575
+1	1	135.0340414	6.651050858
+1	1	135.1081939	6.59918314
+1	1	135.1823465	6.547315422
+1	1	135.256499	6.495447704
+1	1	135.3306515	6.443579987
+1	1	135.404804	6.391712269
+1	1	135.4789566	6.339844551
+1	1	134.7069732	7.331956321
+1	1	134.7931121	7.304012645
+1	1	134.879251	7.276068968
+1	1	134.9653899	7.248125292
+1	1	135.0515288	7.220181615
+1	1	135.1376676	7.192237939
+1	1	135.2238065	7.164294262
+1	1	135.3099454	7.136350586
+1	1	135.3960843	7.108406909
+1	1	135.4822232	7.080463233
+1	1	135.568362	7.052519557
+1	1	135.6545009	7.02457588
+1	1	135.7406398	6.996632204
+1	1	135.8267787	6.968688527
+1	1	135.9129176	6.940744851
+1	1	134.2250061	7.126204967
+1	1	134.5208333	7.726774851
+1	1	134.5958354	7.893461545
+1	1	134.1358035	6.998532766
+1	1	134.0507666	7.029461371
+1	1	133.9657297	7.060389976
+1	1	133.8806928	7.091318582
+1	1	133.7956559	7.122247187
+1	1	133.710619	7.153175792
+1	1	133.6255821	7.184104397
+1	1	133.5405452	7.215033003
+1	1	133.4555083	7.245961608
+1	1	133.3704714	7.276890213
+1	1	133.2854345	7.307818819
+1	1	133.2003975	7.338747424
+1	1	133.1153606	7.369676029
+1	1	133.0303237	7.400604635
+1	1	132.9452868	7.43153324
+1	1	134.0358064	6.94842869
+1	1	133.9507785	6.979357361
+1	1	133.8657506	7.010286033
+1	1	133.7807227	7.041214704
+1	1	133.6956948	7.072143375
+1	1	133.6106669	7.103072046
+1	1	133.5256389	7.134000718
+1	1	133.440611	7.164929389
+1	1	133.3555831	7.19585806
+1	1	133.2705552	7.226786731
+1	1	133.1855273	7.257715402
+1	1	133.1004994	7.288644074
+1	1	133.0154715	7.319572745
+1	1	132.9304435	7.350501416
+1	1	132.8454156	7.381430087
+1	1	134.1440764	7.315733952
+1	1	134.058981	7.346662129
+1	1	133.9738856	7.377590307
+1	1	133.8887902	7.408518484
+1	1	133.8036948	7.439446661
+1	1	133.7185994	7.470374838
+1	1	133.633504	7.501303016
+1	1	133.5484086	7.532231193
+1	1	133.4633132	7.56315937
+1	1	133.3782178	7.594087548
+1	1	133.2931224	7.625015725
+1	1	133.208027	7.655943902
+1	1	133.1229316	7.686872079
+1	1	133.0378362	7.717800257
+1	1	132.9527408	7.748728434
+1	1	134.360683	7.591015948
+1	1	134.2755347	7.621943739
+1	1	134.1903863	7.65287153
+1	1	134.105238	7.683799321
+1	1	134.0200897	7.714727111
+1	1	133.9349414	7.745654902
+1	1	133.8497931	7.776582693
+1	1	133.7646447	7.807510484
+1	1	133.6794964	7.838438274
+1	1	133.5943481	7.869366065
+1	1	133.5091998	7.900293856
+1	1	133.4240515	7.931221646
+1	1	133.3389031	7.962149437
+1	1	133.2537548	7.993077228
+1	1	133.1686065	8.024005019
+1	1	134.5855878	8.091075292
+1	1	134.5003381	8.122002345
+1	1	134.4150885	8.152929397
+1	1	134.3298389	8.18385645
+1	1	134.2445892	8.214783503
+1	1	134.1593396	8.245710556
+1	1	134.07409	8.276637608
+1	1	133.9888403	8.307564661
+1	1	133.9035907	8.338491714
+1	1	133.818341	8.369418767
+1	1	133.7330914	8.40034582
+1	1	133.6478418	8.431272872
+1	1	133.5625921	8.462199925
+1	1	133.4773425	8.493126978
+1	1	133.3920929	8.524054031
+1	1	134.2357073	7.465908837
+1	1	134.1505833	7.496836806
+1	1	134.0654592	7.527764774
+1	1	133.9803352	7.558692742
+1	1	133.8952112	7.58962071
+1	1	133.8100872	7.620548678
+1	1	133.7249632	7.651476646
+1	1	133.6398392	7.682404614
+1	1	133.5547151	7.713332583
+1	1	133.4695911	7.744260551
+1	1	133.3844671	7.775188519
+1	1	133.2993431	7.806116487
+1	1	133.2142191	7.837044455
+1	1	133.1290951	7.867972423
+1	1	133.043971	7.898900392
+1	1	134.1399403	7.157133361
+1	1	134.0548745	7.188061755
+1	1	133.9698086	7.218990148
+1	1	133.8847428	7.249918542
+1	1	133.799677	7.280846936
+1	1	133.7146112	7.311775329
+1	1	133.6295454	7.342703723
+1	1	133.5444796	7.373632117
+1	1	133.4594137	7.40456051
+1	1	133.3743479	7.435488904
+1	1	133.2892821	7.466417297
+1	1	133.2042163	7.497345691
+1	1	133.1191505	7.528274085
+1	1	133.0340846	7.559202478
+1	1	132.9490188	7.590130872
+1	1	134.435652	7.757702401
+1	1	134.3504706	7.788629951
+1	1	134.2652893	7.819557501
+1	1	134.1801079	7.850485051
+1	1	134.0949266	7.881412601
+1	1	134.0097452	7.912340151
+1	1	133.9245639	7.943267701
+1	1	133.8393825	7.97419525
+1	1	133.7542012	8.0051228
+1	1	133.6690198	8.03605035
+1	1	133.5838385	8.0669779
+1	1	133.4986571	8.09790545
+1	1	133.4134758	8.128833
+1	1	133.3282945	8.15976055
+1	1	133.2431131	8.190688099
+1	1	134.5106202	7.924388849
+1	1	134.4254051	7.955316153
+1	1	134.34019	7.986243457
+1	1	134.2549749	8.017170761
+1	1	134.1697598	8.048098065
+1	1	134.0845446	8.079025369
+1	1	133.9993295	8.109952672
+1	1	133.9141144	8.140879976
+1	1	133.8288993	8.17180728
+1	1	133.7436842	8.202734584
+1	1	133.658469	8.233661888
+1	1	133.5732539	8.264589192
+1	1	133.4880388	8.295516496
+1	1	133.4028237	8.3264438
+1	1	133.3176086	8.357371103
+1	1	134.151782	6.832524193
+1	1	134.1827296	6.747548368
+1	1	134.2136772	6.662572542
+1	1	134.2446249	6.577596716
+1	1	134.2755725	6.49262089
+1	1	134.3065201	6.407645064
+1	1	134.3374678	6.322669239
+1	1	134.3684154	6.237693413
+1	1	134.399363	6.152717587
+1	1	134.4303107	6.067741761
+1	1	134.4612583	5.982765936
+1	1	134.4922059	5.89779011
+1	1	134.5231535	5.812814284
+1	1	134.5541012	5.727838458
+1	1	134.5850488	5.642862633
+1	1	134.1051218	6.82844446
+1	1	134.0894093	6.7393889
+1	1	134.0736968	6.650333341
+1	1	134.0579843	6.561277781
+1	1	134.0422717	6.472222222
+1	1	134.0265592	6.383166663
+1	1	134.0108467	6.294111103
+1	1	133.9951342	6.205055544
+1	1	133.9794216	6.115999984
+1	1	133.9637091	6.026944425
+1	1	133.9479966	5.937888865
+1	1	133.9322841	5.848833306
+1	1	133.9165715	5.759777747
+1	1	133.900859	5.670722187
+1	1	133.8851465	5.581666628
+1	1	134.0626718	6.848227091
+1	1	134.0045093	6.778954163
+1	1	133.9463468	6.709681235
+1	1	133.8881843	6.640408308
+1	1	133.8300218	6.57113538
+1	1	133.7718592	6.501862452
+1	1	133.7136967	6.432589524
+1	1	133.6555342	6.363316596
+1	1	133.5973717	6.294043668
+1	1	133.5392092	6.22477074
+1	1	133.4810466	6.155497813
+1	1	133.4228841	6.086224885
+1	1	133.3647216	6.016951957
+1	1	133.3065591	5.947679029
+1	1	133.2483966	5.878406101
+1	1	134.0358064	6.886571348
+1	1	133.9507785	6.855642677
+1	1	133.8657506	6.824714005
+1	1	133.7807227	6.793785334
+1	1	133.6956948	6.762856663
+1	1	133.6106669	6.731927992
+1	1	133.5256389	6.700999321
+1	1	133.440611	6.670070649
+1	1	133.3555831	6.639141978
+1	1	133.2705552	6.608213307
+1	1	133.1855273	6.577284636
+1	1	133.1004994	6.546355965
+1	1	133.0154715	6.515427293
+1	1	132.9304435	6.484498622
+1	1	132.8454156	6.453569951
+1	1	134.7494039	8.105360566
+1	1	134.8279704	8.150572892
+1	1	134.9065369	8.195785219
+1	1	134.9851034	8.240997545
+1	1	135.0636698	8.286209872
+1	1	135.1422363	8.331422198
+1	1	135.2208028	8.376634524
+1	1	135.2993693	8.421846851
+1	1	135.3779358	8.467059177
+1	1	135.4565023	8.512271504
+1	1	135.5350688	8.55748383
+1	1	135.6136353	8.602696157
+1	1	135.6922018	8.647908483
+1	1	135.7707683	8.69312081
+1	1	135.8493347	8.738333136
+1	1	134.7161978	8.138458286
+1	1	134.7615582	8.216768332
+1	1	134.8069186	8.295078379
+1	1	134.8522789	8.373388425
+1	1	134.8976393	8.451698472
+1	1	134.9429997	8.530008519
+1	1	134.9883601	8.608318565
+1	1	135.0337205	8.686628612
+1	1	135.0790809	8.764938658
+1	1	135.1244412	8.843248705
+1	1	135.1698016	8.921558752
+1	1	135.215162	8.999868798
+1	1	135.2605224	9.078178845
+1	1	135.3058828	9.156488891
+1	1	135.3512432	9.234798938
+1	1	134.6865909	8.149199138
+1	1	134.7023444	8.238250038
+1	1	134.7180979	8.327300937
+1	1	134.7338514	8.416351836
+1	1	134.7496049	8.505402736
+1	1	134.7653584	8.594453635
+1	1	134.7811119	8.683504534
+1	1	134.7968654	8.772555433
+1	1	134.8126189	8.861606333
+1	1	134.8283724	8.950657232
+1	1	134.8441259	9.039708131
+1	1	134.8598794	9.128759031
+1	1	134.8756329	9.21780993
+1	1	134.8913863	9.306860829
+1	1	134.9071398	9.395911729
+1	1	134.625477	8.138458286
+1	1	134.5801166	8.216768332
+1	1	134.5347563	8.295078379
+1	1	134.4893959	8.373388425
+1	1	134.4440355	8.451698472
+1	1	134.3986751	8.530008519
+1	1	134.3533147	8.608318565
+1	1	134.3079543	8.686628612
+1	1	134.2625939	8.764938658
+1	1	134.2172336	8.843248705
+1	1	134.1718732	8.921558752
+1	1	134.1265128	8.999868798
+1	1	134.0811524	9.078178845
+1	1	134.035792	9.156488891
+1	1	133.9904316	9.234798938

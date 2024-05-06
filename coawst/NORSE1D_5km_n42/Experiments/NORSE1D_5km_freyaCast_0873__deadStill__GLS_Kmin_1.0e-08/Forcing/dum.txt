@@ -1,0 +1,1 @@
+ ncdump -h GFS_Pair_2023.nc | grep float | grep -v 'lat(' | grep -v 'lon(' | grep lat | cut -d '(' -f1 | rev | cut -d ' ' -f1 | rev

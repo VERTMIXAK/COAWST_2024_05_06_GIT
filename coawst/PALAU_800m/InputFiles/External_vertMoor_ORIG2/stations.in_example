@@ -1,0 +1,516 @@
+!  Station Extraction Parameters.
+!
+!==============================================================================
+!  Copyright (c) 2002-2013 The ROMS/TOMS Group                              ===
+!========================================================= Hernan G. Arango ===
+!                                                                             !
+! Input parameters can be entered in ANY order, provided that the parameter   !
+! KEYWORD (usually, upper case) is typed correctly followed by "="  or "=="   !
+! symbols. Any comment lines are allowed and must begin with an exclamation   !
+! mark (!) in column one.  Comments may  appear to the right of a parameter   !
+! specification to improve documentation.  All comments will ignored during   !
+! reading.  Blank lines are also allowed and ignored. Continuation lines in   !
+! a parameter specification are allowed and must be preceded by a backslash   !
+! (\).  In some instances, more than one value is required for a parameter.   !
+! If fewer values are provided, the  last value  is assigned for the entire   !
+! parameter array.  The multiplication symbol (*),  without blank spaces in   !
+! between, is allowed for a parameter specification.  For example, in a two   !
+! grids nested application:                                                   !
+!                                                                             !
+!    AKT_BAK == 2*1.0d-6  2*5.0d-6              ! m2/s                        !
+!                                                                             !
+! indicates that the first two entries of array AKT_BAK,  in fortran column-  !
+! major order, will have the same value of "1.0d-6" for grid 1,  whereas the  !
+! next two entries will have the same value of "5.0d-6" for grid 2.           !
+!                                                                             !
+! In multiple levels of nesting and/or multiple connected domains  step-ups,  !
+! "Ngrids" entries are expected for some of these parameters.  In such case,  !
+! the order of the entries for a parameter is extremely important.  It  must  !
+! follow the same order (1:Ngrids) as in the state variable declaration. The  !
+! USER may follow the above guidelines for specifying his/her values.  These  !
+! parameters are marked by "==" plural symbol after the KEYWORD.              !
+!                                                                             !
+!==============================================================================
+!
+! Switch to control the writing of stations data within nested and/or multiple
+! connected grids, [1:Ngrids].
+
+   Lstations == T
+
+! Logical switches (TRUE/FALSE) to activate writing of fields in STATION
+! output file, [Sout(:,ng), ng=1, Ngrids].
+
+Sout(idUvel) == T       ! u                  3D U-velocity
+Sout(idVvel) == T       ! v                  3D V-velocity
+Sout(idu3dE) == F       ! u_eastward         3D U-eastward at RHO-points
+Sout(idv3dN) == F       ! v_northward        3D V-nortward at RHO-points
+Sout(idWvel) == T       ! w                  3D W-velocity
+Sout(idOvel) == T       ! omega              3D omega vertical velocity
+Sout(idUbar) == T       ! ubar               2D U-velocity
+Sout(idVbar) == T       ! vbar               2D V-velocity
+Sout(idu2dE) == F       ! ubar_eastward      2D U-eastward  at RHO-points
+Sout(idv2dN) == F       ! vbar_northward     2D V-northward at RHO-points
+Sout(idFsur) == T       ! zeta               free-surface
+Sout(idBath) == T       ! bath               time-dependent bathymetry
+
+Sout(idTvar) == 16*T    ! all (NT) tracers
+
+Sout(idUsms) == T       ! sustr              surface U-stress
+Sout(idVsms) == T       ! svstr              surface V-stress
+Sout(idUbms) == T       ! bustr              bottom U-stress
+Sout(idVbms) == T       ! bvstr              bottom V-stress
+
+Sout(idUbrs) == F       ! bustrc             bottom U-current stress
+Sout(idVbrs) == F       ! bvstrc             bottom V-current stress
+Sout(idUbws) == F       ! bustrw             bottom U-wave stress
+Sout(idVbws) == F       ! bvstrw             bottom V-wave stress
+Sout(idUbcs) == F       ! bustrcwmax         bottom max wave-current U-stress
+Sout(idVbcs) == F       ! bvstrcwmax         bottom max wave-current V-stress
+
+Sout(idUbot) == F       ! Ubot               bed wave orbital U-velocity
+Sout(idVbot) == F       ! Vbot               bed wave orbital V-velocity
+Sout(idUbur) == F       ! Ur                 bottom U-velocity above bed
+Sout(idVbvr) == F       ! Vr                 bottom V-velocity above bed
+
+Sout(idW2xx) == F       ! Sxx_bar            2D radiation stress, Sxx component
+Sout(idW2xy) == F       ! Sxy_bar            2D radiation stress, Sxy component
+Sout(idW2yy) == F       ! Syy_bar            2D radiation stress, Syy component
+Sout(idU2rs) == F       ! Ubar_Rstress       2D radiation U-stress
+Sout(idV2rs) == F       ! Vbar_Rstress       2D radiation V-stress
+Sout(idU2Sd) == F       ! ubar_stokes        2D U-Stokes velocity
+Sout(idV2Sd) == F       ! vbar_stokes        2D V-Stokes velocity
+
+Sout(idW3xx) == F       ! Sxx                3D radiation stress, Sxx component
+Sout(idW3xy) == F       ! Sxy                3D radiation stress, Sxy component
+Sout(idW3yy) == F       ! Syy                3D radiation stress, Syy component
+Sout(idW3zx) == F       ! Szx                3D radiation stress, Szx component
+Sout(idW3zy) == F       ! Szy                3D radiation stress, Szy component
+Sout(idU3rs) == F       ! u_Rstress          3D U-radiation stress
+Sout(idV3rs) == F       ! v_Rstress          3D V-radiation stress
+Sout(idU3Sd) == F       ! u_stokes           3D U-Stokes velocity
+Sout(idV3Sd) == F       ! v_stokes           3D V-Stokes velocity
+
+Sout(idWamp) == F       ! Hwave              wave height
+Sout(idWlen) == F       ! Lwave              wave length
+Sout(idWdir) == F       ! Dwave              wave direction
+Sout(idWptp) == F       ! Pwave_top          wave surface period
+Sout(idWpbt) == F       ! Pwave_bot          wave bottom period
+Sout(idWorb) == F       ! Ub_swan            wave bottom orbital velocity
+Sout(idWdis) == F       ! Wave_dissip        wave dissipation
+
+Sout(idPair) == T       ! Pair               surface air pressure
+Sout(idUair) == T       ! Uair               surface U-wind component
+Sout(idVair) == T       ! Vair               surface V-wind component
+
+Sout(idTsur) == T T     ! shflux, ssflux     surface net heat and salt flux
+Sout(idLhea) == T       ! latent             latent heat flux
+Sout(idShea) == T       ! sensible           sensible heat flux
+Sout(idLrad) == T       ! lwrad              longwave radiation flux
+Sout(idSrad) == T       ! swrad              shortwave radiation flux
+Sout(idEmPf) == T       ! EminusP            E-P flux
+Sout(idevap) == F       ! evaporation        evaporation rate
+Sout(idrain) == F       ! rain               precipitation rate
+
+Sout(idDano) == T       ! rho                density anomaly
+Sout(idVvis) == T       ! AKv                vertical viscosity
+Sout(idTdif) == T       ! AKt                vertical T-diffusion
+Sout(idSdif) == T       ! AKs                vertical Salinity diffusion
+Sout(idHsbl) == T       ! Hsbl               depth of surface boundary layer
+Sout(idHbbl) == F       ! Hbbl               depth of bottom boundary layer
+Sout(idMtke) == F       ! tke                turbulent kinetic energy
+Sout(idMtls) == F       ! gls                turbulent length scale
+Sout(idNPP)  == T       ! Bio_NPP            net primary productivity
+
+! Logical switches (TRUE/FALSE) to activate writing of exposed sediment
+! layer properties into STATIONS output file.  Currently, MBOTP properties
+! are expected for the bottom boundary layer and/or sediment models:
+!
+! idBott( 1=isd50)   grain_diameter          mean grain diameter
+! idBott( 2=idens)   grain_density           mean grain density
+! idBott( 3=iwsed)   settling_vel            mean settling velocity
+! idBott( 4=itauc)   erosion_stres           critical erosion stress
+! idBott( 5=irlen)   ripple_length           ripple length
+! idBott( 6=irhgt)   ripple_height           ripple height
+! idBott( 7=ibwav)   bed_wave_amp            wave excursion amplitude
+! idBott( 8=izdef)   Zo_def                  default bottom roughness
+! idBott( 9=izapp)   Zo_app                  apparent bottom roughness
+! idBott(10=izNik)   Zo_Nik                  Nikuradse bottom roughness
+! idBott(11=izbio)   Zo_bio                  biological bottom roughness
+! idBott(12=izbfm)   Zo_bedform              bed form bottom roughness
+! idBott(13=izbld)   Zo_bedload              bed load bottom roughness
+! idBott(14=izwbl)   Zo_wbl                  wave bottom roughness
+! idBott(15=iactv)   active_layer_thickness  active layer thickness
+! idBott(16=ishgt)   saltation               saltation height
+!
+!                                 1 1 1 1 1 1 1
+!               1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6
+
+Sout(idBott) == F F F F F F F F F F F F F F F F
+
+! Logical switches for bio sediment variables.
+Sout(idPONsed) == T
+Sout(idOPALsed) == T
+Sout(idDENITsed) == T
+Sout(idPONbur) == T
+Sout(idOPALbur) == T
+
+! Logical switches (TRUE/FALSE) to activate writing of ice prognostic
+! variables into HISTORY output file.
+Sout(idUice) == T
+Sout(idVice) == T
+Sout(idAice) == T
+Sout(idHice) == T
+Sout(idTice) == T
+Sout(idHsno) == T
+Sout(idTimid) == T
+Sout(idSfwat) == T
+Sout(idTauiw) == F
+Sout(idChuiw) == F
+Sout(idAgeice) == T
+Sout(idSig11) == T
+Sout(idSig12) == T
+Sout(idSig22) == T
+Sout(idWfr) == T
+! These two cause trouble...
+Sout(idS0mk) == T
+Sout(idT0mk) == T
+
+! Number of stations to process in each nested grid.  These values are
+! essential because the station arrays are dynamically allocated using
+! these values, [1:Ngrids].
+
+    NSTATION ==  323
+
+! Station locations for all grids in any desired order.  The horizontal
+! location for a particular station may be specified in terms of fractional
+! (I,J) grid pairs (FLAG=0) or (longitude,latitude) grid pairs (FLAG=1).
+! Here, FLAG is a special switch and may be used for multiple purposes.
+! The GRID column indicates nested grid number to process. This value must
+! be one in non-nested applications.  The COMMENT section is ignored during
+! reading and may be used to help documentation.
+
+POS =  GRID  FLAG      X-POS       Y-POS     COMMENT
+
+   1   0  16  16
+   1   0  48  16
+   1   0  80  16
+   1   0  112  16
+   1   0  144  16
+   1   0  176  16
+   1   0  208  16
+   1   0  240  16
+   1   0  272  16
+   1   0  304  16
+   1   0  336  16
+   1   0  368  16
+   1   0  400  16
+   1   0  432  16
+   1   0  464  16
+   1   0  496  16
+   1   0  528  16
+   1   0  560  16
+   1   0  592  16
+   1   0  16  48
+   1   0  48  48
+   1   0  80  48
+   1   0  112  48
+   1   0  144  48
+   1   0  176  48
+   1   0  208  48
+   1   0  240  48
+   1   0  272  48
+   1   0  304  48
+   1   0  336  48
+   1   0  368  48
+   1   0  400  48
+   1   0  432  48
+   1   0  464  48
+   1   0  496  48
+   1   0  528  48
+   1   0  560  48
+   1   0  592  48
+   1   0  16  80
+   1   0  48  80
+   1   0  80  80
+   1   0  112  80
+   1   0  144  80
+   1   0  176  80
+   1   0  208  80
+   1   0  240  80
+   1   0  272  80
+   1   0  304  80
+   1   0  336  80
+   1   0  368  80
+   1   0  400  80
+   1   0  432  80
+   1   0  464  80
+   1   0  496  80
+   1   0  528  80
+   1   0  560  80
+   1   0  592  80
+   1   0  16  112
+   1   0  48  112
+   1   0  80  112
+   1   0  112  112
+   1   0  144  112
+   1   0  176  112
+   1   0  208  112
+   1   0  240  112
+   1   0  272  112
+   1   0  304  112
+   1   0  336  112
+   1   0  368  112
+   1   0  400  112
+   1   0  432  112
+   1   0  464  112
+   1   0  496  112
+   1   0  528  112
+   1   0  560  112
+   1   0  592  112
+   1   0  16  144
+   1   0  48  144
+   1   0  80  144
+   1   0  112  144
+   1   0  144  144
+   1   0  176  144
+   1   0  208  144
+   1   0  240  144
+   1   0  272  144
+   1   0  304  144
+   1   0  336  144
+   1   0  368  144
+   1   0  400  144
+   1   0  432  144
+   1   0  464  144
+   1   0  496  144
+   1   0  528  144
+   1   0  560  144
+   1   0  592  144
+   1   0  16  176
+   1   0  48  176
+   1   0  80  176
+   1   0  112  176
+   1   0  144  176
+   1   0  176  176
+   1   0  208  176
+   1   0  240  176
+   1   0  272  176
+   1   0  304  176
+   1   0  336  176
+   1   0  368  176
+   1   0  400  176
+   1   0  432  176
+   1   0  464  176
+   1   0  496  176
+   1   0  528  176
+   1   0  560  176
+   1   0  592  176
+   1   0  16  208
+   1   0  48  208
+   1   0  80  208
+   1   0  112  208
+   1   0  144  208
+   1   0  176  208
+   1   0  208  208
+   1   0  240  208
+   1   0  272  208
+   1   0  304  208
+   1   0  336  208
+   1   0  368  208
+   1   0  400  208
+   1   0  432  208
+   1   0  464  208
+   1   0  496  208
+   1   0  528  208
+   1   0  560  208
+   1   0  592  208
+   1   0  16  240
+   1   0  48  240
+   1   0  80  240
+   1   0  112  240
+   1   0  144  240
+   1   0  176  240
+   1   0  208  240
+   1   0  240  240
+   1   0  272  240
+   1   0  304  240
+   1   0  336  240
+   1   0  368  240
+   1   0  400  240
+   1   0  432  240
+   1   0  464  240
+   1   0  496  240
+   1   0  528  240
+   1   0  560  240
+   1   0  592  240
+   1   0  16  272
+   1   0  48  272
+   1   0  80  272
+   1   0  112  272
+   1   0  144  272
+   1   0  176  272
+   1   0  208  272
+   1   0  240  272
+   1   0  272  272
+   1   0  304  272
+   1   0  336  272
+   1   0  368  272
+   1   0  400  272
+   1   0  432  272
+   1   0  464  272
+   1   0  496  272
+   1   0  528  272
+   1   0  560  272
+   1   0  592  272
+   1   0  16  304
+   1   0  48  304
+   1   0  80  304
+   1   0  112  304
+   1   0  144  304
+   1   0  176  304
+   1   0  208  304
+   1   0  240  304
+   1   0  272  304
+   1   0  304  304
+   1   0  336  304
+   1   0  368  304
+   1   0  400  304
+   1   0  432  304
+   1   0  464  304
+   1   0  496  304
+   1   0  528  304
+   1   0  560  304
+   1   0  592  304
+   1   0  16  336
+   1   0  48  336
+   1   0  80  336
+   1   0  112  336
+   1   0  144  336
+   1   0  176  336
+   1   0  208  336
+   1   0  240  336
+   1   0  272  336
+   1   0  304  336
+   1   0  336  336
+   1   0  368  336
+   1   0  400  336
+   1   0  432  336
+   1   0  464  336
+   1   0  496  336
+   1   0  528  336
+   1   0  560  336
+   1   0  592  336
+   1   0  16  368
+   1   0  48  368
+   1   0  80  368
+   1   0  112  368
+   1   0  144  368
+   1   0  176  368
+   1   0  208  368
+   1   0  240  368
+   1   0  272  368
+   1   0  304  368
+   1   0  336  368
+   1   0  368  368
+   1   0  400  368
+   1   0  432  368
+   1   0  464  368
+   1   0  496  368
+   1   0  528  368
+   1   0  560  368
+   1   0  592  368
+   1   0  16  400
+   1   0  48  400
+   1   0  80  400
+   1   0  112  400
+   1   0  144  400
+   1   0  176  400
+   1   0  208  400
+   1   0  240  400
+   1   0  272  400
+   1   0  304  400
+   1   0  336  400
+   1   0  368  400
+   1   0  400  400
+   1   0  432  400
+   1   0  464  400
+   1   0  496  400
+   1   0  528  400
+   1   0  560  400
+   1   0  592  400
+   1   0  16  432
+   1   0  48  432
+   1   0  80  432
+   1   0  112  432
+   1   0  144  432
+   1   0  176  432
+   1   0  208  432
+   1   0  240  432
+   1   0  272  432
+   1   0  304  432
+   1   0  336  432
+   1   0  368  432
+   1   0  400  432
+   1   0  432  432
+   1   0  464  432
+   1   0  496  432
+   1   0  528  432
+   1   0  560  432
+   1   0  592  432
+   1   0  16  464
+   1   0  48  464
+   1   0  80  464
+   1   0  112  464
+   1   0  144  464
+   1   0  176  464
+   1   0  208  464
+   1   0  240  464
+   1   0  272  464
+   1   0  304  464
+   1   0  336  464
+   1   0  368  464
+   1   0  400  464
+   1   0  432  464
+   1   0  464  464
+   1   0  496  464
+   1   0  528  464
+   1   0  560  464
+   1   0  592  464
+   1   0  16  496
+   1   0  48  496
+   1   0  80  496
+   1   0  112  496
+   1   0  144  496
+   1   0  176  496
+   1   0  208  496
+   1   0  240  496
+   1   0  272  496
+   1   0  304  496
+   1   0  336  496
+   1   0  368  496
+   1   0  400  496
+   1   0  432  496
+   1   0  464  496
+   1   0  496  496
+   1   0  528  496
+   1   0  560  496
+   1   0  592  496
+   1   0  16  528
+   1   0  48  528
+   1   0  80  528
+   1   0  112  528
+   1   0  144  528
+   1   0  176  528
+   1   0  208  528
+   1   0  240  528
+   1   0  272  528
+   1   0  304  528
+   1   0  336  528
+   1   0  368  528
+   1   0  400  528
+   1   0  432  528
+   1   0  464  528
+   1   0  496  528
+   1   0  528  528
+   1   0  560  528
+   1   0  592  528

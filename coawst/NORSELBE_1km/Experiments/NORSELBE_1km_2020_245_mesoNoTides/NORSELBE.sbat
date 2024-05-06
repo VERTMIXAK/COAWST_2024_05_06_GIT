@@ -1,0 +1,19 @@
+#!/bin/bash
+#SBATCH --partition=t2standard
+#SBATCH --ntasks=80
+#SBATCH --mail-user=jgpender@alaska.edu
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --time=36:00:00
+#SBATCH --output=roms.%j
+source ~/.runROMSintel
+ulimit -l unlimited
+ulimit -s unlimited
+/bin/rm -r  netcdfOutput log 
+mkdir netcdfOutput
+cp  ../../InputFiles/Gridpak/NORSELBE_1km.nc .
+mpirun -np 80  coawst_mesoNoTides ./Apps/ocean_norselbe_1km.in > log
+bash /import/home/jgpender/addl_Scripts/timeROMS/getRunTime.bash >> log
+cp log netcdfOutput
+cp Apps/ocean*.in  netcdfOutput
